@@ -1,12 +1,12 @@
 package eu.golovkov.feature.pokemonlist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,19 +31,31 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import eu.golovkov.core.ui.StatefulLayout
 import eu.golovkov.core.ui.asData
+import eu.golovkov.core.ui.theme.PPadding
+import eu.golovkov.feature.pokemondetails.destinations.PokemonDetailsScreenDestination
 import eu.golovkov.feature.pokemonlist.model.Pokemon
 import org.koin.androidx.compose.getViewModel
 
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun PokemonListScreen() {
+fun PokemonListScreen(
+    navigator: DestinationsNavigator,
+) {
     val viewModel = getViewModel<PokemonListViewModel>()
 
     PokemonList(
         stateHolder = viewModel,
+        onPokemonClick = { pokemon ->
+            navigator.navigate(
+                PokemonDetailsScreenDestination(
+                    pokemonName = pokemon.name
+                )
+            )
+        }
     )
 }
 
@@ -51,6 +63,7 @@ fun PokemonListScreen() {
 @Composable
 private fun PokemonList(
     stateHolder: PokemonListStateHolder,
+    onPokemonClick: (Pokemon) -> Unit = {},
 ) {
     val state = stateHolder.state.collectAsState().value
     val pokemons = state.asData()?.pokemons?.collectAsLazyPagingItems() ?: return
@@ -76,7 +89,7 @@ private fun PokemonList(
                 when (message) {
                     is PokemonListStateHolder.State.Message.Error -> {
                         Text(
-                            text = message.message ?: "Unknown error",
+                            text = message.message ?: stringResource(R.string.generic_error_message),
                             modifier = Modifier.align(Alignment.Center),
                         )
                     }
@@ -104,9 +117,10 @@ private fun PokemonList(
                     when (pokemons.peek(index)) {
                         is Pokemon -> {
                             item {
-                                val character = pokemons[index] as Pokemon
+                                val pokemon = pokemons[index] as Pokemon
                                 PokemonItem(
-                                    pokemon = character,
+                                    pokemon = pokemon,
+                                    onPokemonClick = { onPokemonClick(pokemon) }
                                 )
                             }
                         }
@@ -120,11 +134,13 @@ private fun PokemonList(
 @Composable
 fun PokemonItem(
     pokemon: Pokemon,
+    onPokemonClick: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
+            .clickable { onPokemonClick() }
             .fillMaxHeight()
-            .padding(16.dp)
+            .padding(PPadding.medium)
     ) {
         Text(text = pokemon.id.toString())
         Text(text = pokemon.name)
@@ -135,8 +151,8 @@ fun PokemonItem(
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                .padding(16.dp)
-                .size(64.dp),
+                .padding(PPadding.medium)
+                .size(PPadding.huge),
             contentScale = ContentScale.Fit,
         )
         Divider()

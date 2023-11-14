@@ -1,10 +1,122 @@
 package eu.golovkov.feature.pokemondetails
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import eu.golovkov.core.ui.StatefulLayout
+import eu.golovkov.core.ui.asData
+import eu.golovkov.core.ui.theme.PPadding
+import org.koin.androidx.compose.getViewModel
 
 @RootNavGraph(start = true)
 @Destination
-fun PokemonDetailsScreen() {
+@Composable
+fun PokemonDetailsScreen(
+    pokemonName: String? = null,
+) {
+    val viewModel = getViewModel<PokemonDetailsViewModel>()
 
+    LaunchedEffect(pokemonName) {
+        pokemonName?.let {
+            viewModel.loadPokemon(it)
+        }
+    }
+
+    PokemonDetails(
+        stateHolder = viewModel,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PokemonDetails(
+    stateHolder: PokemonDetailsViewModel,
+) {
+    val state = stateHolder.state.collectAsState().value
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Star,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
+    ) {
+        StatefulLayout(
+            state = state,
+            message = { message ->
+                when (message) {
+                    is PokemonDetailsStateHolder.State.Message.Error -> {
+                        Text(
+                            text = message.message ?: stringResource(R.string.generic_error_message),
+                            modifier = Modifier.align(Alignment.Center),
+                        )
+                    }
+                }
+            },
+            modifier = Modifier.padding(it)
+        ) {
+            val pokemon = state.asData()?.pokemon ?: return@StatefulLayout
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Text(
+                    text = pokemon.name
+                )
+                Text(
+                    text = pokemon.id.toString()
+                )
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(pokemon.sprites.other.dreamWorld.frontDefault)
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(PPadding.medium)
+                        .size(PPadding.huge),
+                    contentScale = ContentScale.Fit,
+                )
+            }
+        }
+    }
 }
