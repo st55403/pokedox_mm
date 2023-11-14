@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -31,11 +32,30 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+}
+
+ksp {
+    arg("compose-destinations.mode", "navgraphs")
+    arg("compose-destinations.moduleName", "pokemonfilter")
+    arg("compose-destinations.useComposableVisibility", "true")
 }
 
 dependencies {
-
+    implementation(libs.compose.destination.core)
+    ksp(libs.compose.destination.ksp)
     implementation(libs.core.ktx)
+    implementation(libs.activity)
     implementation(libs.appcompat)
-    implementation(libs.material)
+    implementation(libs.bundles.lifecycle)
 }

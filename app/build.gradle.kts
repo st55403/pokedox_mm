@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -34,11 +35,36 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
+    implementation(projects.core.data)
+    implementation(projects.core.navigation)
+    implementation(projects.core.network)
+    implementation(projects.core.ui)
+
+    implementation(projects.feature.pokemondetails)
+    implementation(projects.feature.pokemonfilter)
+    implementation(projects.feature.pokemonlist)
+
+    implementation(libs.compose.destination.core)
+    ksp(libs.compose.destination.ksp)
+    implementation(libs.koin)
+    implementation(libs.bundles.ktor)
 
     implementation(libs.core.ktx)
+    implementation(libs.activity)
     implementation(libs.appcompat)
-    implementation(libs.material)
+    implementation(libs.bundles.lifecycle)
 }

@@ -3,11 +3,10 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.serialization)
 }
 
 android {
-    namespace = "eu.golovkov.core.network"
+    namespace = "eu.golovkov.core.navigation"
     compileSdk = 34
 
     defaultConfig {
@@ -33,26 +32,18 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
+    implementation(projects.feature.pokemondetails)
+    implementation(projects.feature.pokemonfilter)
+    implementation(projects.feature.pokemonlist)
+
     implementation(libs.compose.destination.core)
     ksp(libs.compose.destination.ksp)
     implementation(libs.core.ktx)
-    implementation(libs.activity)
     implementation(libs.appcompat)
-    implementation(libs.bundles.lifecycle)
+    implementation(libs.material)
     implementation(libs.koin)
     implementation(libs.bundles.ktor)
 }
