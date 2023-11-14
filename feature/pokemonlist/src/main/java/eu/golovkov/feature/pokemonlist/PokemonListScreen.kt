@@ -11,8 +11,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -44,6 +47,7 @@ fun PokemonListScreen() {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PokemonList(
     stateHolder: PokemonListStateHolder,
@@ -58,6 +62,13 @@ private fun PokemonList(
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(R.string.pokemon_list_title))
+                }
+            )
+        }
     ) {
         StatefulLayout(
             state = state,
@@ -73,6 +84,17 @@ private fun PokemonList(
             },
             modifier = Modifier.padding(it)
         ) {
+            if (pokemons.loadState.refresh is LoadState.Loading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(Alignment.Center)
+                ) {
+                    CircularProgressIndicator(
+                        Modifier.align(Alignment.Center)
+                    )
+                }
+            }
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
@@ -87,18 +109,6 @@ private fun PokemonList(
                                     pokemon = character,
                                 )
                             }
-                        }
-                    }
-                }
-
-                if (pokemons.loadState.refresh is LoadState.Loading) {
-                    item {
-                        Box(
-                            modifier = Modifier
-                        ) {
-                            CircularProgressIndicator(
-                                Modifier.align(Alignment.Center)
-                            )
                         }
                     }
                 }
@@ -127,7 +137,7 @@ fun PokemonItem(
             modifier = Modifier
                 .padding(16.dp)
                 .size(64.dp),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
         )
         Divider()
     }
