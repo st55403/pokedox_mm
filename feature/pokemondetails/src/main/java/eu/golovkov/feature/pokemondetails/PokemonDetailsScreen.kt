@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -56,6 +58,7 @@ private fun PokemonDetails(
     stateHolder: PokemonDetailsViewModel,
 ) {
     val state = stateHolder.state.collectAsState().value
+    val isFavorite = state.asData()?.isFavorite ?: false
 
     Scaffold(
         topBar = {
@@ -70,9 +73,9 @@ private fun PokemonDetails(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = stateHolder::changeFavorite) {
                         Icon(
-                            imageVector = Icons.Outlined.Star,
+                            imageVector = if (isFavorite) Icons.Filled.Star else Icons.Outlined.AddCircle,
                             contentDescription = null
                         )
                     }

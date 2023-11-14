@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.ramcosta.composedestinations.DestinationsNavHost
+import eu.golovkov.core.datastore.di.DataStoreModule
 import eu.golovkov.core.navigation.RootNavGraph
 import eu.golovkov.core.network.di.NetworkModule
 import eu.golovkov.core.ui.theme.PTheme
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
                 NetworkModule(),
                 PokemonListModule(),
                 PokemonDetailsModule(),
+                DataStoreModule()
             )
         }
 

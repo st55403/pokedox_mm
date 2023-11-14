@@ -54,6 +54,7 @@ ksp {
 dependencies {
     implementation(projects.core.network)
     implementation(projects.core.ui)
+    implementation(projects.core.datastore)
     implementation(libs.compose.destination.core)
     implementation(libs.paging.compose)
     ksp(libs.compose.destination.ksp)

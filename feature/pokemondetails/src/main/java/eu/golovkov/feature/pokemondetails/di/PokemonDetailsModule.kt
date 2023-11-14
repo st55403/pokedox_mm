@@ -10,6 +10,7 @@ object PokemonDetailsModule {
         viewModel {
             PokemonDetailsViewModel(
                 apiService = get(),
+                dataStorePreference = get()
             )
         }
     }

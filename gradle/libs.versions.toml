@@ -14,6 +14,7 @@ lifecycle = "2.6.2"
 compose-destinations = "1.9.54"
 koin = "3.1.5"
 paging = "3.2.1"
+datastore = "1.0.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -38,6 +39,8 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 [bundles]
 ui = [
@@ -60,6 +63,10 @@ lifecycle = [
 material = [
     "material",
     "material3",
+]
+datastore = [
+    "datastore",
+    "datastore-preferences",
 ]
 
 [plugins]
