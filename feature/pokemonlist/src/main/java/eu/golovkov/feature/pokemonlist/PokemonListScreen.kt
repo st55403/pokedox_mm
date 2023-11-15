@@ -51,6 +51,7 @@ import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import eu.golovkov.core.data.Pokemon
 import eu.golovkov.core.ui.StatefulLayout
 import eu.golovkov.core.ui.asData
 import eu.golovkov.core.ui.sequentialId
@@ -58,7 +59,6 @@ import eu.golovkov.core.ui.theme.PColor
 import eu.golovkov.core.ui.theme.PPadding
 import eu.golovkov.feature.pokemondetails.destinations.PokemonDetailsScreenDestination
 import eu.golovkov.feature.pokemonfilter.PokemonFilterScreen
-import eu.golovkov.feature.pokemonlist.model.Pokemon
 import org.koin.androidx.compose.getViewModel
 import eu.golovkov.core.ui.R as UI_R
 

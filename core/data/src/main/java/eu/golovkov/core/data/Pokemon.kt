@@ -1,4 +1,4 @@
-package eu.golovkov.feature.pokemonlist.model
+package eu.golovkov.core.data
 
 import androidx.compose.ui.graphics.Color
 

@@ -2,9 +2,9 @@ package eu.golovkov.feature.pokemonlist
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import eu.golovkov.core.data.Pokemon
 import eu.golovkov.core.network.ktor.ApiService
 import eu.golovkov.core.ui.CardBackgroundColor
-import eu.golovkov.feature.pokemonlist.model.Pokemon
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
