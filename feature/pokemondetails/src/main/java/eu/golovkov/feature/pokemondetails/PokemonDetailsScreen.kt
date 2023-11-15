@@ -115,13 +115,13 @@ private fun PokemonDetails(
                 Row {
                     pokemon.types.forEach { type ->
                         Text(
-                            text = type.type.name
+                            text = type
                         )
                     }
                 }
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(pokemon.sprites.other.dreamWorld.frontDefault)
+                        .data(pokemon.imageUrl)
                         .decoderFactory(SvgDecoder.Factory())
                         .build(),
                     contentDescription = null,
@@ -151,10 +151,10 @@ private fun PokemonDetails(
                 pokemon.stats.forEach { stat ->
                     Row {
                         Text(
-                            text = stat.stat.name
+                            text = stat.stat
                         )
                         Text(
-                            text = stat.baseStat.toString()
+                            text = stat.value.toString()
                         )
                     }
                 }

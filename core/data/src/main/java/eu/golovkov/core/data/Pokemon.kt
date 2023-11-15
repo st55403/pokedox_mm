@@ -8,4 +8,12 @@ data class Pokemon(
     val imageUrl: String,
     val color: Pair<Color, Color>,
     val types: List<String>,
+    val height: Int,
+    val weight: Int,
+    val stats: List<Stat>,
+)
+
+data class Stat(
+    val value: Int,
+    val stat: String,
 )

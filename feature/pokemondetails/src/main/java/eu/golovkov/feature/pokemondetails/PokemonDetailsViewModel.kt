@@ -2,9 +2,11 @@ package eu.golovkov.feature.pokemondetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import eu.golovkov.core.data.Pokemon
+import eu.golovkov.core.data.Stat
 import eu.golovkov.core.datastore.DataStorePreferenceRepository
 import eu.golovkov.core.network.ktor.ApiService
-import eu.golovkov.core.network.model.PokemonResponse
+import eu.golovkov.core.ui.CardBackgroundColor
 import eu.golovkov.core.ui.StatefulLayoutState
 import eu.golovkov.core.ui.asData
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +27,17 @@ class PokemonDetailsViewModel(
         viewModelScope.launch {
             mutableState.value = try {
                 val isFavorite = dataStorePreference.getNames().first().contains(pokemonName)
-                val pokemon = apiService.getPokemonDetails(pokemonName)
+                val response = apiService.getPokemonDetails(pokemonName)
+                val pokemon = Pokemon(
+                    id = response.id,
+                    name = response.name,
+                    imageUrl = response.sprites.other.dreamWorld.frontDefault,
+                    color = CardBackgroundColor.getColor(response.types.first().type.name),
+                    types = response.types.map { it.type.name },
+                    height = response.height,
+                    weight = response.weight,
+                    stats = response.stats.map { Stat(it.baseStat, it.stat.name) }
+                )
                 PokemonDetailsStateHolder.State.Data(
                     pokemon = pokemon,
                     isFavorite = isFavorite
@@ -57,7 +69,7 @@ class PokemonDetailsViewModel(
 interface PokemonDetailsStateHolder : PokemonDetailsStateTransformer {
     sealed interface State : StatefulLayoutState<State.Data, State.Message, State.Loading> {
         data class Data(
-            val pokemon: PokemonResponse? = null,
+            val pokemon: Pokemon? = null,
             val isFavorite: Boolean = false,
             val wasChanged: Boolean = false,
         ) : State, StatefulLayoutState.Data
