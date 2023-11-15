@@ -6,10 +6,10 @@ import eu.golovkov.core.ui.theme.PColor
 object CardBackgroundColor {
     fun getColor(name: String): Pair<Color, Color> =
         when (name) {
-            "grass" -> Pair(PColor.grassLight, PColor.grassDark)
-            "fire" -> Pair(PColor.fireLight, PColor.fireDark)
-            "water" -> Pair(PColor.waterLight, PColor.waterDark)
-            "electric" -> Pair(PColor.electricLight, PColor.electricDark)
-            else -> Pair(PColor.greyLight, PColor.greyDark)
+            "grass" -> Pair(PColor.GrassLight, PColor.GrassDark)
+            "fire" -> Pair(PColor.FireLight, PColor.FireDark)
+            "water" -> Pair(PColor.WaterLight, PColor.WaterDark)
+            "electric" -> Pair(PColor.ElectricLight, PColor.ElectricDark)
+            else -> Pair(PColor.GreyLight, PColor.GreyDark)
         }
 }

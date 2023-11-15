@@ -10,9 +10,9 @@ private val LightColors = lightColorScheme(
     primary = PColor.Purple40,
     secondary = PColor.PurpleGrey40,
     tertiary = PColor.Pink40,
-    background = PColor.background,
-    surface = PColor.background,
-    surfaceTint = PColor.background,
+    background = PColor.Background,
+    surface = PColor.Background,
+    surfaceTint = PColor.Background,
 )
 
 private val DarkColors = darkColorScheme(
