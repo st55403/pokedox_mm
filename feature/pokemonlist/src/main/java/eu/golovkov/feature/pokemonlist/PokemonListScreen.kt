@@ -1,11 +1,13 @@
 package eu.golovkov.feature.pokemonlist
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,6 +16,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -46,6 +50,7 @@ import eu.golovkov.feature.pokemondetails.destinations.PokemonDetailsScreenDesti
 import eu.golovkov.feature.pokemonfilter.PokemonFilterScreen
 import eu.golovkov.feature.pokemonlist.model.Pokemon
 import org.koin.androidx.compose.getViewModel
+import eu.golovkov.core.ui.R as UI_R
 
 @RootNavGraph(start = true)
 @Destination
@@ -95,12 +100,23 @@ private fun PokemonList(
                         Text(text = stringResource(R.string.pokemon_list_title))
                     }
                 )
-                Row {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     FilterChip(
-                        label = { Text("Favourite Pokemon") },
+                        label = { Text("Favorite Pokemon") },
                         selected = false,
                         onClick = {
 
+                        },
+                        trailingIcon = {
+                            Icon(
+                                painter = painterResource(id = UI_R.drawable.ic_heart),
+                                contentDescription = null,
+                            )
                         }
                     )
                     FilterChip(
@@ -108,6 +124,12 @@ private fun PokemonList(
                         selected = false,
                         onClick = {
                             showTypeBottomSheet = true
+                        },
+                        trailingIcon = {
+                            Icon(
+                                painter = painterResource(id = UI_R.drawable.ic_ball),
+                                contentDescription = null,
+                            )
                         }
                     )
                     FilterChip(
@@ -115,6 +137,12 @@ private fun PokemonList(
                         selected = false,
                         onClick = {
                             showGenerationBottomSheet = true
+                        },
+                        trailingIcon = {
+                            Icon(
+                                painter = painterResource(id = UI_R.drawable.ic_ball),
+                                contentDescription = null,
+                            )
                         }
                     )
                 }
