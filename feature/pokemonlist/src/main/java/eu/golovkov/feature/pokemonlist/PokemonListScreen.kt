@@ -1,22 +1,26 @@
 package eu.golovkov.feature.pokemonlist
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -36,6 +40,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
@@ -46,6 +53,8 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import eu.golovkov.core.ui.StatefulLayout
 import eu.golovkov.core.ui.asData
+import eu.golovkov.core.ui.sequentialId
+import eu.golovkov.core.ui.theme.PColor
 import eu.golovkov.core.ui.theme.PPadding
 import eu.golovkov.feature.pokemondetails.destinations.PokemonDetailsScreenDestination
 import eu.golovkov.feature.pokemonfilter.PokemonFilterScreen
@@ -98,18 +107,22 @@ private fun PokemonList(
                     title = {
                         Text(
                             text = stringResource(R.string.pokemon_list_title),
+                            modifier = Modifier
+                                .padding(start = PPadding.small),
                             style = MaterialTheme.typography.displayLarge
                         )
                     }
                 )
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
+                        .fillMaxWidth()
+                        .padding(horizontal = PPadding.medium)
+                        .padding(horizontal = PPadding.small),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     FilterChip(
-                        label = { Text("Favorite Pokemon") },
+                        label = { Text("Favorite") },
                         selected = false,
                         onClick = {
 
@@ -179,8 +192,10 @@ private fun PokemonList(
             }
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .fillMaxSize()
+                contentPadding = PaddingValues(
+                    horizontal = PPadding.medium,
+                    vertical = PPadding.medium,
+                )
             ) {
                 for (index in 0 until pokemons.itemCount) {
                     when (pokemons.peek(index)) {
@@ -227,27 +242,97 @@ private fun PokemonList(
 @Composable
 fun PokemonItem(
     pokemon: Pokemon,
+    modifier: Modifier = Modifier,
     onPokemonClick: () -> Unit = {},
 ) {
-    Column(
+    Card(
         modifier = Modifier
-            .clickable { onPokemonClick() }
-            .fillMaxHeight()
-            .padding(PPadding.medium)
+            .padding(PPadding.small)
+            .clickable { onPokemonClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = pokemon.color.second
+        ),
     ) {
-        Text(text = pokemon.id.toString())
-        Text(text = pokemon.name)
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(pokemon.imageUrl)
-                .decoderFactory(SvgDecoder.Factory())
-                .build(),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(PPadding.medium)
-                .size(PPadding.huge),
-            contentScale = ContentScale.Fit,
-        )
-        Divider()
+        ConstraintLayout {
+            val (name, number, image, background, types) = createRefs()
+            Image(
+                painter = painterResource(id = UI_R.drawable.ic_ball_background),
+                contentDescription = null,
+                modifier = modifier.constrainAs(background) {
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                },
+            )
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(pokemon.imageUrl)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = null,
+                modifier = modifier
+                    .constrainAs(image) {
+                        end.linkTo(parent.end)
+                        top.linkTo(name.bottom)
+                        bottom.linkTo(parent.bottom)
+                    }
+                    .padding(bottom = PPadding.small)
+                    .size(PPadding.huge),
+                contentScale = ContentScale.Fit,
+            )
+            Text(
+                text = pokemon.id.sequentialId(),
+                modifier = modifier
+                    .constrainAs(number) {
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                    }
+                    .padding(top = PPadding.small),
+                style = MaterialTheme.typography.displayMedium
+                    .copy(color = LocalContentColor.current.copy(alpha = 0.2f))
+            )
+            Text(
+                text = pokemon.name.capitalize(Locale.current),
+                modifier = modifier
+                    .constrainAs(name) {
+                        start.linkTo(parent.start)
+                        top.linkTo(number.bottom)
+                    }
+                    .padding(start = PPadding.medium),
+                color = PColor.White,
+                style = MaterialTheme.typography.displayMedium
+            )
+            Column(
+                modifier = modifier
+                    .constrainAs(types) {
+                        start.linkTo(parent.start)
+                        top.linkTo(name.bottom)
+                    },
+                verticalArrangement = Arrangement.spacedBy(PPadding.small)
+            ) {
+                pokemon.types.forEach {
+                    Box(
+                        modifier = modifier
+                            .padding(
+                                start = PPadding.medium,
+                            )
+                            .background(
+                                color = pokemon.color.first,
+                                shape = MaterialTheme.shapes.medium
+                            )
+                    ) {
+                        Text(
+                            text = it.capitalize(Locale.current),
+                            modifier = modifier
+                                .padding(
+                                    vertical = PPadding.tiny,
+                                    horizontal = PPadding.small
+                                ),
+                            color = PColor.White,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
+        }
     }
 }

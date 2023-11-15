@@ -3,6 +3,7 @@ package eu.golovkov.feature.pokemonlist
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import eu.golovkov.core.network.ktor.ApiService
+import eu.golovkov.core.ui.CardBackgroundColor
 import eu.golovkov.feature.pokemonlist.model.Pokemon
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -33,6 +34,8 @@ class PokemonSource(
                     id = pokemon.id,
                     name = pokemon.name,
                     imageUrl = pokemon.sprites.other.dreamWorld.frontDefault,
+                    color = CardBackgroundColor.getColor(pokemon.types.first().type.name),
+                    types = pokemon.types.map { it.type.name }
                 )
             }
 
