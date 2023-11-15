@@ -8,6 +8,10 @@ data class PokemonResponse(
     val id: Int,
     val name: String,
     val sprites: Sprites,
+    val height: Int,
+    val weight: Int,
+    val types: List<Type>,
+    val stats: List<Stat>,
 )
 
 @Serializable
@@ -25,4 +29,26 @@ data class Other(
 data class DreamWorld(
     @SerialName("front_default")
     val frontDefault: String,
+)
+
+@Serializable
+data class Type(
+    val type: TypeItem,
+)
+
+@Serializable
+data class TypeItem(
+    val name: String,
+)
+
+@Serializable
+data class Stat(
+    @SerialName("base_stat")
+    val baseStat: Int,
+    val stat: StatItem,
+)
+
+@Serializable
+data class StatItem(
+    val name: String,
 )

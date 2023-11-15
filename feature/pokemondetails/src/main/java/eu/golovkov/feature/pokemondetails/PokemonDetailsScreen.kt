@@ -1,6 +1,7 @@
 package eu.golovkov.feature.pokemondetails
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -8,7 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.AddCircle
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -102,12 +102,21 @@ private fun PokemonDetails(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Text(
-                    text = pokemon.name
-                )
-                Text(
-                    text = pokemon.id.toString()
-                )
+                Row {
+                    Text(
+                        text = pokemon.name
+                    )
+                    Text(
+                        text = pokemon.id.toString()
+                    )
+                }
+                Row {
+                    pokemon.types.forEach { type ->
+                        Text(
+                            text = type.type.name
+                        )
+                    }
+                }
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(pokemon.sprites.other.dreamWorld.frontDefault)
@@ -119,6 +128,34 @@ private fun PokemonDetails(
                         .size(PPadding.huge),
                     contentScale = ContentScale.Fit,
                 )
+                Row {
+                    Column {
+                        Text(
+                            text = "Height"
+                        )
+                        Text(
+                            text = pokemon.height.toString()
+                        )
+                    }
+                    Column {
+                        Text(
+                            text = "Weight"
+                        )
+                        Text(
+                            text = pokemon.weight.toString()
+                        )
+                    }
+                }
+                pokemon.stats.forEach { stat ->
+                    Row {
+                        Text(
+                            text = stat.stat.name
+                        )
+                        Text(
+                            text = stat.baseStat.toString()
+                        )
+                    }
+                }
             }
         }
     }
