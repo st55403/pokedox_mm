@@ -43,6 +43,7 @@ import eu.golovkov.core.ui.StatefulLayout
 import eu.golovkov.core.ui.asData
 import eu.golovkov.core.ui.theme.PPadding
 import eu.golovkov.feature.pokemondetails.destinations.PokemonDetailsScreenDestination
+import eu.golovkov.feature.pokemonfilter.PokemonFilterScreen
 import eu.golovkov.feature.pokemonlist.model.Pokemon
 import org.koin.androidx.compose.getViewModel
 
@@ -178,11 +179,15 @@ private fun PokemonList(
                 ) {
                     when {
                         showTypeBottomSheet -> {
-                            Text(text = "Type")
+                            PokemonFilterScreen(
+                                bottomSheetType = "type"
+                            )
                         }
 
                         showGenerationBottomSheet -> {
-                            Text(text = "Generation")
+                            PokemonFilterScreen(
+                                bottomSheetType = "generation"
+                            )
                         }
                     }
                 }

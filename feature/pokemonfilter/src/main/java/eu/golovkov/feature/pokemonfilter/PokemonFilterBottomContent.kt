@@ -10,22 +10,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import eu.golovkov.core.ui.StatefulLayout
 import eu.golovkov.core.ui.asData
 import org.koin.androidx.compose.getViewModel
 
-@RootNavGraph(start = true)
-@Destination
 @Composable
 fun PokemonFilterScreen(
-    bottomSheetType: String? = null,
+    bottomSheetType: String
 ) {
     val viewModel = getViewModel<PokemonFilterViewModel>()
 
     LaunchedEffect(bottomSheetType) {
-        bottomSheetType?.let {
+        bottomSheetType.let {
             when (it) {
                 "type" -> viewModel.loadTypes()
                 "generation" -> viewModel.loadGenerations()
