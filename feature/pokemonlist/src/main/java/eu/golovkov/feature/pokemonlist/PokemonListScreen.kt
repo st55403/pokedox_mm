@@ -14,14 +14,18 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -70,12 +74,11 @@ private fun PokemonList(
 ) {
     val state = stateHolder.state.collectAsState().value
     val pokemons = state.asData()?.pokemons?.collectAsLazyPagingItems() ?: return
-
-    // TODO: move in vm
-    val selectedChips = remember {
-        mutableStateListOf<String>()
-    }
-    val chipItems = listOf("Favourite Pokemon", "All Type", "All Gen")
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+    var showTypeBottomSheet by remember { mutableStateOf(false) }
+    var showGenerationBottomSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(pokemons.loadState, pokemons.itemCount) {
         stateHolder.onLoadStatesChanged(pokemons.loadState, pokemons.itemCount)
@@ -92,20 +95,27 @@ private fun PokemonList(
                     }
                 )
                 Row {
-                    chipItems.forEach { chipItem ->
-                        val isSelected = selectedChips.contains(chipItem)
-                        FilterChip(
-                            label = { Text(chipItem) },
-                            selected = isSelected,
-                            onClick = {
-                                if (isSelected) {
-                                    selectedChips.remove(chipItem)
-                                } else {
-                                    selectedChips.add(chipItem)
-                                }
-                            }
-                        )
-                    }
+                    FilterChip(
+                        label = { Text("Favourite Pokemon") },
+                        selected = false,
+                        onClick = {
+
+                        }
+                    )
+                    FilterChip(
+                        label = { Text("All Type") },
+                        selected = false,
+                        onClick = {
+                            showTypeBottomSheet = true
+                        }
+                    )
+                    FilterChip(
+                        label = { Text("All Gen") },
+                        selected = false,
+                        onClick = {
+                            showGenerationBottomSheet = true
+                        }
+                    )
                 }
             }
         }
@@ -116,7 +126,8 @@ private fun PokemonList(
                 when (message) {
                     is PokemonListStateHolder.State.Message.Error -> {
                         Text(
-                            text = message.message ?: stringResource(R.string.generic_error_message),
+                            text = message.message
+                                ?: stringResource(R.string.generic_error_message),
                             modifier = Modifier.align(Alignment.Center),
                         )
                     }
@@ -150,6 +161,28 @@ private fun PokemonList(
                                     onPokemonClick = { onPokemonClick(pokemon) }
                                 )
                             }
+                        }
+                    }
+                }
+            }
+            if (showTypeBottomSheet || showGenerationBottomSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        if (showTypeBottomSheet) {
+                            showTypeBottomSheet = false
+                        } else {
+                            showGenerationBottomSheet = false
+                        }
+                    },
+                    sheetState = sheetState,
+                ) {
+                    when {
+                        showTypeBottomSheet -> {
+                            Text(text = "Type")
+                        }
+
+                        showGenerationBottomSheet -> {
+                            Text(text = "Generation")
                         }
                     }
                 }
