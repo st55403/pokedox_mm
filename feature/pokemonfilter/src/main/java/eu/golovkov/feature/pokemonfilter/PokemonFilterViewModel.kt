@@ -19,6 +19,7 @@ class PokemonFilterViewModel(
     override val state: StateFlow<PokemonFilterStateHolder.State> = mutableState.asStateFlow()
 
     fun loadTypes() {
+        mutableState.value = PokemonFilterStateHolder.State.Loading
         viewModelScope.launch {
             mutableState.value = try {
                 val types = apiService.getPokemonTypes()
@@ -32,6 +33,7 @@ class PokemonFilterViewModel(
     }
 
     fun loadGenerations() {
+        mutableState.value = PokemonFilterStateHolder.State.Loading
         viewModelScope.launch {
             mutableState.value = try {
                 val generation = apiService.getPokemonGenerations()

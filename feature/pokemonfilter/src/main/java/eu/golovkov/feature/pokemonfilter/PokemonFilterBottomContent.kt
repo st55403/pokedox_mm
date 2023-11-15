@@ -1,6 +1,6 @@
 package eu.golovkov.feature.pokemonfilter
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
@@ -16,7 +16,7 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PokemonFilterScreen(
-    bottomSheetType: String
+    bottomSheetType: String = "type"
 ) {
     val viewModel = getViewModel<PokemonFilterViewModel>()
 
@@ -54,38 +54,38 @@ private fun PokemonFilter(
         }
     ) {
         state.asData()?.type?.let {
-            Text(
-                text = stringResource(R.string.type_title)
-            )
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                for (type in it.results) {
-                    item {
-                        Text(
-                            text = type.name
-                        )
+            Column {
+                Text(
+                    text = stringResource(R.string.type_title)
+                )
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                ) {
+                    for (type in it.results) {
+                        item {
+                            Text(
+                                text = type.name
+                            )
+                        }
                     }
                 }
             }
         }
 
         state.asData()?.generation?.let {
-            Text(
-                text = stringResource(R.string.generation_title)
-            )
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                for (generation in it.results) {
-                    item {
-                        Text(
-                            text = generation.name
-                        )
+            Column {
+                Text(
+                    text = stringResource(R.string.generation_title)
+                )
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                ) {
+                    for (generation in it.results) {
+                        item {
+                            Text(
+                                text = generation.name
+                            )
+                        }
                     }
                 }
             }

@@ -179,9 +179,7 @@ private fun PokemonList(
                 ) {
                     when {
                         showTypeBottomSheet -> {
-                            PokemonFilterScreen(
-                                bottomSheetType = "type"
-                            )
+                            PokemonFilterScreen()
                         }
 
                         showGenerationBottomSheet -> {
