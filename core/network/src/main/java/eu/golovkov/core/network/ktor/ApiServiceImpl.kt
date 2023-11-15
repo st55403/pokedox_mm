@@ -1,6 +1,5 @@
 package eu.golovkov.core.network.ktor
 
-import eu.golovkov.core.network.model.GenerationResponse
 import eu.golovkov.core.network.model.PokemonListResponse
 import eu.golovkov.core.network.model.PokemonResponse
 import eu.golovkov.core.network.model.TypeResponse
@@ -23,6 +22,6 @@ class ApiServiceImpl(
     override suspend fun getPokemonTypes(): TypeResponse =
         client.get("type").body()
 
-    override suspend fun getPokemonGenerations(): GenerationResponse =
+    override suspend fun getPokemonGenerations(): TypeResponse =
         client.get("generation").body()
 }

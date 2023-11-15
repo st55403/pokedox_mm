@@ -10,6 +10,9 @@ private val LightColors = lightColorScheme(
     primary = PColor.Purple40,
     secondary = PColor.PurpleGrey40,
     tertiary = PColor.Pink40,
+    background = PColor.background,
+    surface = PColor.background,
+    surfaceTint = PColor.background,
 )
 
 private val DarkColors = darkColorScheme(
@@ -31,6 +34,7 @@ fun PTheme(
 
     MaterialTheme(
         colorScheme = colors,
+        typography = Typography,
         content = content
     )
 }

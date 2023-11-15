@@ -6,6 +6,7 @@ ksp = "1.9.0-1.0.13"
 core-ktx = "1.12.0"
 compose = "1.5.4"
 coil = "2.5.0"
+constraint = "1.0.1"
 appcompat = "1.6.1"
 material = "1.10.0"
 material3 = "1.1.2"
@@ -29,6 +30,7 @@ compose-destination-core = { module = "io.github.raamcosta.compose-destinations:
 compose-destination-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "compose-destinations" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 coil-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraint" }
 koin = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-ktor = { group = "io.insert-koin", name = "koin-ktor", version.ref = "koin" }
 ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
@@ -63,6 +65,7 @@ lifecycle = [
 material = [
     "material",
     "material3",
+    "constraintlayout",
 ]
 datastore = [
     "datastore",

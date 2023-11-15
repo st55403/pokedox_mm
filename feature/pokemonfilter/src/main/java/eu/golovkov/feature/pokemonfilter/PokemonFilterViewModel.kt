@@ -3,7 +3,6 @@ package eu.golovkov.feature.pokemonfilter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.golovkov.core.network.ktor.ApiService
-import eu.golovkov.core.network.model.GenerationResponse
 import eu.golovkov.core.network.model.TypeResponse
 import eu.golovkov.core.ui.StatefulLayoutState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +23,7 @@ class PokemonFilterViewModel(
             mutableState.value = try {
                 val types = apiService.getPokemonTypes()
                 PokemonFilterStateHolder.State.Data(
-                    type = types
+                    typesOrGenerations = types
                 )
             } catch (e: Exception) {
                 PokemonFilterStateHolder.State.Message.Error(e.message)
@@ -38,7 +37,7 @@ class PokemonFilterViewModel(
             mutableState.value = try {
                 val generation = apiService.getPokemonGenerations()
                 PokemonFilterStateHolder.State.Data(
-                    generation = generation
+                    typesOrGenerations = generation
                 )
             } catch (e: Exception) {
                 PokemonFilterStateHolder.State.Message.Error(e.message)
@@ -50,8 +49,7 @@ class PokemonFilterViewModel(
 interface PokemonFilterStateHolder : PokemonFilterStateTransformer {
     sealed interface State : StatefulLayoutState<State.Data, State.Message, State.Loading> {
         data class Data(
-            val type: TypeResponse? = null,
-            val generation: GenerationResponse? = null,
+            val typesOrGenerations: TypeResponse? = null,
         ) : State, StatefulLayoutState.Data
 
         sealed interface Message : State, StatefulLayoutState.Message {

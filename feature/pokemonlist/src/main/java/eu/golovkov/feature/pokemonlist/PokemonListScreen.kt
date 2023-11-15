@@ -17,6 +17,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -80,9 +81,7 @@ private fun PokemonList(
 ) {
     val state = stateHolder.state.collectAsState().value
     val pokemons = state.asData()?.pokemons?.collectAsLazyPagingItems() ?: return
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
+    val sheetState = rememberModalBottomSheetState()
     var showTypeBottomSheet by remember { mutableStateOf(false) }
     var showGenerationBottomSheet by remember { mutableStateOf(false) }
 
@@ -97,7 +96,10 @@ private fun PokemonList(
             Column {
                 TopAppBar(
                     title = {
-                        Text(text = stringResource(R.string.pokemon_list_title))
+                        Text(
+                            text = stringResource(R.string.pokemon_list_title),
+                            style = MaterialTheme.typography.displayLarge
+                        )
                     }
                 )
                 Row(
