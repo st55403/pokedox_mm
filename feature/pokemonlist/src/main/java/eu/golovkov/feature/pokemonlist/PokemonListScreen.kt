@@ -3,6 +3,7 @@ package eu.golovkov.feature.pokemonlist
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,18 +13,20 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
@@ -68,6 +71,12 @@ private fun PokemonList(
     val state = stateHolder.state.collectAsState().value
     val pokemons = state.asData()?.pokemons?.collectAsLazyPagingItems() ?: return
 
+    // TODO: move in vm
+    val selectedChips = remember {
+        mutableStateListOf<String>()
+    }
+    val chipItems = listOf("Favourite Pokemon", "All Type", "All Gen")
+
     LaunchedEffect(pokemons.loadState, pokemons.itemCount) {
         stateHolder.onLoadStatesChanged(pokemons.loadState, pokemons.itemCount)
     }
@@ -76,11 +85,29 @@ private fun PokemonList(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(R.string.pokemon_list_title))
+            Column {
+                TopAppBar(
+                    title = {
+                        Text(text = stringResource(R.string.pokemon_list_title))
+                    }
+                )
+                Row {
+                    chipItems.forEach { chipItem ->
+                        val isSelected = selectedChips.contains(chipItem)
+                        FilterChip(
+                            label = { Text(chipItem) },
+                            selected = isSelected,
+                            onClick = {
+                                if (isSelected) {
+                                    selectedChips.remove(chipItem)
+                                } else {
+                                    selectedChips.add(chipItem)
+                                }
+                            }
+                        )
+                    }
                 }
-            )
+            }
         }
     ) {
         StatefulLayout(
