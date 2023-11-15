@@ -297,7 +297,8 @@ fun PokemonItem(
                         start.linkTo(parent.start)
                         top.linkTo(number.bottom)
                     }
-                    .padding(start = PPadding.medium),
+                    .padding(start = PPadding.medium,)
+                    .padding(vertical = PPadding.small),
                 color = PColor.White,
                 style = MaterialTheme.typography.displayMedium
             )
