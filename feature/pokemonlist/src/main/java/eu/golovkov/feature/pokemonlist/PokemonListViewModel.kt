@@ -8,7 +8,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import eu.golovkov.core.network.ktor.ApiService
-import eu.golovkov.core.network.model.PokemonListItem
 import eu.golovkov.core.ui.StatefulLayoutState
 import eu.golovkov.feature.pokemonlist.model.Pokemon
 import kotlinx.coroutines.flow.Flow

@@ -52,10 +52,20 @@ ksp {
 }
 
 dependencies {
+    implementation(projects.core.network)
+    implementation(projects.core.ui)
+    implementation(projects.core.datastore)
     implementation(libs.compose.destination.core)
+    implementation(libs.paging.compose)
     ksp(libs.compose.destination.ksp)
     implementation(libs.core.ktx)
     implementation(libs.activity)
     implementation(libs.appcompat)
     implementation(libs.bundles.lifecycle)
+    implementation(libs.koin)
+    implementation(libs.bundles.ktor)
+    implementation(libs.bundles.material)
+    implementation(libs.bundles.ui)
+    implementation(libs.coil)
+    implementation(libs.coil.svg)
 }

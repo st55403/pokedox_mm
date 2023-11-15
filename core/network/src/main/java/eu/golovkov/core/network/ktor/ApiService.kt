@@ -1,7 +1,9 @@
 package eu.golovkov.core.network.ktor
 
+import eu.golovkov.core.network.model.GenerationResponse
 import eu.golovkov.core.network.model.PokemonListResponse
 import eu.golovkov.core.network.model.PokemonResponse
+import eu.golovkov.core.network.model.TypeResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -18,6 +20,8 @@ import kotlinx.serialization.json.Json
 interface ApiService {
     suspend fun getPokemonList(offset: Int): PokemonListResponse
     suspend fun getPokemonDetails(name: String): PokemonResponse
+    suspend fun getPokemonTypes(): TypeResponse
+    suspend fun getPokemonGenerations(): GenerationResponse
 
     companion object {
         private val json = Json {

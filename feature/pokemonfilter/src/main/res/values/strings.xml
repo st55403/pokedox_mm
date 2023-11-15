@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="generic_error_message">Something went wrong</string>
+    <string name="generation_title">Generation</string>
+    <string name="type_title">Type</string>
+</resources>
