@@ -215,7 +215,7 @@ private fun PokemonDetails(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = "Height",
+                                    text = stringResource(R.string.height_lable),
                                     style = MaterialTheme.typography.displayMedium.copy(
                                         color = PColor.GreyTitle
                                     )
@@ -230,7 +230,7 @@ private fun PokemonDetails(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = "Weight",
+                                    text = stringResource(R.string.weight_lable),
                                     style = MaterialTheme.typography.displayMedium.copy(
                                         color = PColor.GreyTitle
                                     )
@@ -241,14 +241,30 @@ private fun PokemonDetails(
                             }
                         }
                     }
-                    pokemon.stats.forEach { stat ->
-                        Row {
-                            Text(
-                                text = stat.stat
-                            )
-                            Text(
-                                text = stat.value.toString()
-                            )
+                    Column(
+                        modifier = Modifier
+                            .padding(PPadding.medium)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.training_lable),
+                            style = MaterialTheme.typography.displayMedium
+                        )
+                        pokemon.stats.forEach { stat ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(PPadding.medium)
+                            ) {
+                                Text(
+                                    text = stat.stat,
+                                    style = MaterialTheme.typography.displayMedium.copy(
+                                        color = PColor.GreyTitle
+                                    ),
+                                )
+                                Text(
+                                    text = stat.value.toString(),
+                                )
+                            }
                         }
                     }
                 }
