@@ -54,6 +54,7 @@ dependencies {
     implementation(projects.core.network)
     implementation(projects.core.ui)
     implementation(projects.core.datastore)
+    implementation(projects.core.database)
 
     implementation(projects.feature.pokemondetails)
     implementation(projects.feature.pokemonfilter)

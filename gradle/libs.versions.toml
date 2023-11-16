@@ -16,6 +16,7 @@ compose-destinations = "1.9.54"
 koin = "3.1.5"
 paging = "3.2.1"
 datastore = "1.0.0"
+room = "2.6.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -43,6 +44,9 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 [bundles]
 ui = [
@@ -70,6 +74,10 @@ material = [
 datastore = [
     "datastore",
     "datastore-preferences",
+]
+room = [
+    "room-compiler",
+    "room-ktx",
 ]
 
 [plugins]
