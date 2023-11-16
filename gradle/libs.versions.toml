@@ -76,7 +76,7 @@ datastore = [
     "datastore-preferences",
 ]
 room = [
-    "room-compiler",
+    "room-runtime",
     "room-ktx",
 ]
 

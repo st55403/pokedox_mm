@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -35,9 +36,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.room.runtime)
-    annotationProcessor(libs.room.compiler)
-    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    implementation(libs.bundles.room)
     implementation(libs.compose.destination.core)
     ksp(libs.compose.destination.ksp)
     implementation(libs.core.ktx)

@@ -10,6 +10,7 @@ object PokemonListModule {
         viewModel {
             PokemonListViewModel(
                 apiService = get(),
+                pokemonRepository = get()
             )
         }
     }

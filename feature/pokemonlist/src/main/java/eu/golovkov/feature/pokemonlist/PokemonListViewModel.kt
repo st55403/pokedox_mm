@@ -8,6 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import eu.golovkov.core.data.Pokemon
+import eu.golovkov.core.database.repository.PokemonRepository
 import eu.golovkov.core.network.ktor.ApiService
 import eu.golovkov.core.ui.StatefulLayoutState
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 
 class PokemonListViewModel(
     private val apiService: ApiService,
+    private val pokemonRepository: PokemonRepository
 ) : ViewModel(), PokemonListStateHolder {
     private val mutableState: MutableStateFlow<PokemonListStateHolder.State> =
         MutableStateFlow(PokemonListStateHolder.State.Loading)
@@ -25,6 +27,7 @@ class PokemonListViewModel(
 
     init {
         loadPokemons()
+        pokemonRepository.getAll()
     }
 
     private fun loadPokemons() {
