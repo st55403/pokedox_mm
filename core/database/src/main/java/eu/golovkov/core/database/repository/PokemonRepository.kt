@@ -10,7 +10,8 @@ interface PokemonRepository {
     fun getAll(): Flow<Pokemons>
     fun getById(id: Int): Flow<PokemonEntity>
     fun addPokemon(pokemonEntity: PokemonEntity)
-    fun removePokemon(pokemonEntity: PokemonEntity)
+    fun removePokemon(pokemonId: Int)
+    fun isFavorite(pokemonId: Int): Boolean
 }
 
 class PokemonRepositoryImpl(
@@ -25,6 +26,9 @@ class PokemonRepositoryImpl(
     override fun addPokemon(pokemonEntity: PokemonEntity) =
         pokemonDao.addPokemon(pokemonEntity)
 
-    override fun removePokemon(pokemonEntity: PokemonEntity) =
-        pokemonDao.removePokemon(pokemonEntity)
+    override fun removePokemon(pokemonId: Int) =
+        pokemonDao.removePokemon(pokemonId)
+
+    override fun isFavorite(pokemonId: Int): Boolean =
+        pokemonDao.isFavorite(pokemonId)
 }
