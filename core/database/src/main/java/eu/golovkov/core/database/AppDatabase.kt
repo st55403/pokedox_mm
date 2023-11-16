@@ -6,11 +6,11 @@ import androidx.room.TypeConverters
 import eu.golovkov.core.database.converter.ColorConverter
 import eu.golovkov.core.database.converter.StringListConverter
 import eu.golovkov.core.database.dao.PokemonDao
-import eu.golovkov.core.database.model.Pokemon
+import eu.golovkov.core.database.model.PokemonEntity
 
 @Database(
     entities = [
-        Pokemon::class,
+        PokemonEntity::class,
     ],
     version = 3,
     exportSchema = false

@@ -13,7 +13,7 @@ import eu.golovkov.core.database.converter.StringListConverter
     ColorConverter::class,
     StringListConverter::class,
 )
-data class Pokemon(
+data class PokemonEntity(
     @PrimaryKey val id: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "image_url") val imageUrl: String,

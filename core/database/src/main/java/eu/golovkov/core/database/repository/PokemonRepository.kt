@@ -1,16 +1,16 @@
 package eu.golovkov.core.database.repository
 
 import eu.golovkov.core.database.dao.PokemonDao
-import eu.golovkov.core.database.model.Pokemon
+import eu.golovkov.core.database.model.PokemonEntity
 import kotlinx.coroutines.flow.Flow
 
-typealias Pokemons = List<Pokemon>
+typealias Pokemons = List<PokemonEntity>
 
 interface PokemonRepository {
     fun getAll(): Flow<Pokemons>
-    fun getById(id: Int): Flow<Pokemon>
-    fun addPokemon(pokemon: Pokemon)
-    fun removePokemon(pokemon: Pokemon)
+    fun getById(id: Int): Flow<PokemonEntity>
+    fun addPokemon(pokemonEntity: PokemonEntity)
+    fun removePokemon(pokemonEntity: PokemonEntity)
 }
 
 class PokemonRepositoryImpl(
@@ -19,12 +19,12 @@ class PokemonRepositoryImpl(
     override fun getAll(): Flow<Pokemons> =
         pokemonDao.getAll()
 
-    override fun getById(id: Int): Flow<Pokemon> =
+    override fun getById(id: Int): Flow<PokemonEntity> =
         pokemonDao.getById(id)
 
-    override fun addPokemon(pokemon: Pokemon) =
-        pokemonDao.addPokemon(pokemon)
+    override fun addPokemon(pokemonEntity: PokemonEntity) =
+        pokemonDao.addPokemon(pokemonEntity)
 
-    override fun removePokemon(pokemon: Pokemon) =
-        pokemonDao.removePokemon(pokemon)
+    override fun removePokemon(pokemonEntity: PokemonEntity) =
+        pokemonDao.removePokemon(pokemonEntity)
 }
