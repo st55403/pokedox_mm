@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="generic_error_message">Something went wrong</string>
-    <string name="height_lable">Height</string>
-    <string name="training_lable">Training</string>
-    <string name="weight_lable">Weight</string>
+    <string name="height_lable" translatable="false">Height</string>
+    <string name="training_lable" translatable="false">Training</string>
+    <string name="weight_lable" translatable="false">Weight</string>
 </resources>
