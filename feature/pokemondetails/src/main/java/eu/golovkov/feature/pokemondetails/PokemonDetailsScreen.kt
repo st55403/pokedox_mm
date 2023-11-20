@@ -38,6 +38,7 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import eu.golovkov.core.ui.StatefulLayout
 import eu.golovkov.core.ui.asData
 import eu.golovkov.core.ui.sequentialId
@@ -50,6 +51,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun PokemonDetailsScreen(
     pokemonName: String? = null,
+    navigator: DestinationsNavigator,
 ) {
     val viewModel = getViewModel<PokemonDetailsViewModel>()
 
@@ -61,6 +63,7 @@ fun PokemonDetailsScreen(
 
     PokemonDetails(
         stateHolder = viewModel,
+        onBackClick = { navigator.popBackStack() }
     )
 }
 
@@ -68,6 +71,7 @@ fun PokemonDetailsScreen(
 @Composable
 private fun PokemonDetails(
     stateHolder: PokemonDetailsViewModel,
+    onBackClick: () -> Unit,
 ) {
     val state = stateHolder.state.collectAsState().value
     val isFavorite = state.asData()?.isFavorite ?: false
@@ -79,7 +83,7 @@ private fun PokemonDetails(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null
