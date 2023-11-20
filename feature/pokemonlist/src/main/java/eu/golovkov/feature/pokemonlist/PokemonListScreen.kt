@@ -224,12 +224,21 @@ private fun PokemonList(
                 ) {
                     when {
                         showTypeBottomSheet -> {
-                            PokemonFilterScreen()
+                            PokemonFilterScreen(
+                                onItemClicked = {
+                                    showTypeBottomSheet = false
+                                    stateHolder.getPokemonsByType(it)
+                                }
+                            )
                         }
 
                         showGenerationBottomSheet -> {
                             PokemonFilterScreen(
-                                bottomSheetType = "generation"
+                                bottomSheetType = "generation",
+                                onItemClicked = {
+                                    showGenerationBottomSheet = false
+                                    stateHolder.getPokemonsByGeneration(it)
+                                }
                             )
                         }
                     }
@@ -297,7 +306,7 @@ fun PokemonItem(
                         start.linkTo(parent.start)
                         top.linkTo(number.bottom)
                     }
-                    .padding(start = PPadding.medium,)
+                    .padding(start = PPadding.medium)
                     .padding(vertical = PPadding.small),
                 color = PColor.White,
                 style = MaterialTheme.typography.displayMedium

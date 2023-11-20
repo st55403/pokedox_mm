@@ -1,5 +1,7 @@
 package eu.golovkov.core.network.ktor
 
+import eu.golovkov.core.network.model.PokemonListByGenerationResponse
+import eu.golovkov.core.network.model.PokemonListByTypeResponse
 import eu.golovkov.core.network.model.PokemonListResponse
 import eu.golovkov.core.network.model.PokemonResponse
 import eu.golovkov.core.network.model.TypeResponse
@@ -20,7 +22,9 @@ interface ApiService {
     suspend fun getPokemonList(offset: Int): PokemonListResponse
     suspend fun getPokemonDetails(name: String): PokemonResponse
     suspend fun getPokemonTypes(): TypeResponse
+    suspend fun getPokemonListByType(typeName: String): PokemonListByTypeResponse
     suspend fun getPokemonGenerations(): TypeResponse
+    suspend fun getPokemonListByGeneration(generationName: String): PokemonListByGenerationResponse
 
     companion object {
         private val json = Json {

@@ -1,6 +1,7 @@
 package eu.golovkov.feature.pokemonfilter
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +32,8 @@ import eu.golovkov.core.ui.R as UI_R
 
 @Composable
 fun PokemonFilterScreen(
-    bottomSheetType: String = "type"
+    bottomSheetType: String = "type",
+    onItemClicked: (String) -> Unit,
 ) {
     val viewModel = getViewModel<PokemonFilterViewModel>()
 
@@ -47,6 +49,7 @@ fun PokemonFilterScreen(
     PokemonFilter(
         isType = bottomSheetType == "type",
         stateHolder = viewModel,
+        onItemClicked = onItemClicked
     )
 }
 
@@ -54,6 +57,7 @@ fun PokemonFilterScreen(
 private fun PokemonFilter(
     isType: Boolean,
     stateHolder: PokemonFilterStateHolder,
+    onItemClicked: (String) -> Unit,
 ) {
     val state = stateHolder.state.collectAsState().value
 
@@ -73,7 +77,8 @@ private fun PokemonFilter(
         state.asData()?.typesOrGenerations?.let { type ->
             BottomSheetContent(
                 type = type,
-                titleRes = if (isType) R.string.type_title else R.string.generation_title
+                titleRes = if (isType) R.string.type_title else R.string.generation_title,
+                onItemClicked = onItemClicked
             )
         }
     }
@@ -83,7 +88,8 @@ private fun PokemonFilter(
 private fun BottomSheetContent(
     type: TypeResponse,
     titleRes: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onItemClicked: (String) -> Unit
 ) {
     Column {
         Text(
@@ -103,7 +109,9 @@ private fun BottomSheetContent(
             for (items in type.results) {
                 item {
                     GridItem(
-                        title = items.name.capitalize(Locale.current)
+                        modifier = modifier
+                            .clickable { onItemClicked(items.name) },
+                        title = items.name.capitalize(Locale.current),
                     )
                 }
             }
