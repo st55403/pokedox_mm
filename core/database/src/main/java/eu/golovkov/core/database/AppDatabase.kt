@@ -12,7 +12,7 @@ import eu.golovkov.core.database.model.PokemonEntity
     entities = [
         PokemonEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(

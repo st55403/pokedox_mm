@@ -16,7 +16,7 @@ import eu.golovkov.core.database.converter.StringListConverter
 data class PokemonEntity(
     @PrimaryKey val id: Int,
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "image_url") val imageUrl: String,
+    @ColumnInfo(name = "image_url") val imageUrl: String? = null,
     @ColumnInfo(name = "color") val color: Pair<Color, Color>,
     @ColumnInfo(name = "types") val types: List<String>,
     @ColumnInfo(name = "height") val height: Int,

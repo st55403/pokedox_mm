@@ -28,7 +28,7 @@ data class Other(
 @Serializable
 data class DreamWorld(
     @SerialName("front_default")
-    val frontDefault: String,
+    val frontDefault: String? = null,
 )
 
 @Serializable
